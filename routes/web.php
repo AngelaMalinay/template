@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 use App\Http\Controllers\Users\UserController;
+use App\Http\Controllers\Api\v1\ProfilePictureController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome');
@@ -15,6 +16,10 @@ Route::get('dashboard', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
+});
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/profile-pictures', [ProfilePictureController::class, 'index'])->name('profile-pictures.index');
 });
 
 require __DIR__.'/settings.php';

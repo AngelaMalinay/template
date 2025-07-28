@@ -46,7 +46,7 @@ const reportItems = ref<DropdownNavItem[]>([
 const footerNavItems: NavItem[] = [
     {
         title: 'Configuration',
-        href: '/dashboard',
+        href: '/profile-pictures',
         icon: LayoutGrid,
     },
 ];
