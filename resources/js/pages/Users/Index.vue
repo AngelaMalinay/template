@@ -6,12 +6,12 @@
         <!-- Search and Buttons -->
         <div class="flex items-center justify-between gap-4">
           <!-- Search Input -->
-          <Input
-            v-model="searchQuery"
-            type="text"
-            placeholder="Search users..."
-            class="w-full max-w-xs h-9"
-          />
+          <div class="relative w-full max-w-sm items-center">
+            <Input v-model="searchQuery" type="text" placeholder="Search..." class="pl-10 h-9" />
+            <span class="absolute start-0 inset-y-0 flex items-center justify-center px-2">
+              <Search class="size-5 text-muted-foreground" />
+            </span>
+          </div>
   
           <!-- Buttons -->
           <div class="flex items-center gap-4">
@@ -26,20 +26,20 @@
             <Button
               @click="triggerFileInput"
               :disabled="loading"
-              class="bg-green-600 hover:bg-green-700 text-white"
+              variant="outline"
             >
-              <Upload class="w-4 h-4 mr-2" />
+              <Upload class="w-4 h-4" />
               <span v-if="loading">Uploading...</span>
               <span v-else>Upload Excel</span>
             </Button>
-  
+            
             <!-- Create User Button -->
             <CreateUserDialog />
           </div>
         </div>
   
         <!-- Users Table -->
-        <div class="relative min-h-[100vh] flex-1 rounded-xl border">
+        <div class="rounded-xl border">
           <UsersTable :users="filteredUsers" />
         </div>
       </div>
@@ -54,7 +54,7 @@
   import UsersTable from "@/components/users/UsersTable.vue";
   import { Button } from "@/components/ui/button";
   import { Input } from '@/components/ui/input'
-  import { Upload } from "lucide-vue-next";
+  import { Upload, Search } from "lucide-vue-next";
   import axios from "axios";
   import type { AxiosError } from "axios";
   import { useToast } from "vue-toastification";

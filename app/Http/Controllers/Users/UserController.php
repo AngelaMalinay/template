@@ -8,8 +8,6 @@ use App\Imports\UsersImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
-
-
 use App\Models\User;
 
 class UserController extends Controller
@@ -85,17 +83,29 @@ class UserController extends Controller
 
             // Validate input
             $validated = $request->validate([
-                'status' => 'required|string|in:active,inactive',
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
+                'role' => 'required|in:admin,user',
+                'status' => 'required|in:active,inactive',
             ]);
 
-            // Update user status
+            // Update user
             $user->update($validated);
 
-            return response()->json(['message' => 'User updated successfully!', 'user' => $user], 200);
-        } catch (ValidationException $e) {
-            return response()->json(['message' => 'Validation failed', 'errors' => $e->errors()], 422);
+            return response()->json([
+                'message' => 'User updated successfully!', 
+                'user' => $user
+            ], 200);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'message' => 'Validation failed', 
+                'errors' => $e->errors()
+            ], 422);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Failed to update user', 'error' => $e->getMessage()], 500);
+            return response()->json([
+                'message' => 'Failed to update user', 
+                'error' => $e->getMessage()
+            ], 500);
         }
     }
 

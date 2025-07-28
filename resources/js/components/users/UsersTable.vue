@@ -2,7 +2,7 @@
   <Table>
     <TableHeader>
       <TableRow>
-        <TableHead>User Name</TableHead>
+        <TableHead>Full Name</TableHead>
         <TableHead>Email</TableHead>
         <TableHead>Role</TableHead>
         <TableHead>Status</TableHead>
@@ -20,7 +20,7 @@
             @update:checked="(checked) => handleToggle(user, checked)"
           />
         </TableCell>
-        <TableCell class="text-right">
+        <TableCell class="text-right space-x-2">
           <!-- Edit User -->
           <EditUserDialog :user="user" />
           <!-- Delete User -->
@@ -36,7 +36,8 @@ import { ref } from "vue";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import EditUserDialog from "@/components/users/EditUserDialog.vue";
 import DeleteUserDialog from "@/components/users/DeleteUserDialog.vue";
-import CustomSwitch from '../../components/ui/customswitch/CustomSwitch.vue';
+import CustomSwitch from '@/components/ui/customswitch/CustomSwitch.vue';
+import { Switch } from '@/components/ui/switch'
 import axios from 'axios';
 import { useToast } from 'vue-toastification';
 

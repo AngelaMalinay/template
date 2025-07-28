@@ -1,12 +1,21 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
+import { SidebarGroup, SidebarGroupLabel } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
-import { Link } from '@inertiajs/vue3';
-import { BookOpen, Folder, LayoutGrid, UserRoundCog  } from 'lucide-vue-next';
+import { Link, usePage } from '@inertiajs/vue3';
+import { LayoutGrid, UserRoundCog, BarChart3, Cog, HardDriveDownload, Building2 } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
+
+interface DropdownNavItem extends NavItem {
+    children?: NavItem[];
+    isOpen?: boolean;
+}
+
+const user = usePage().props.auth.user;
 
 const mainNavItems: NavItem[] = [
     {
@@ -21,9 +30,22 @@ const mainNavItems: NavItem[] = [
     },
 ];
 
+const reportItems = ref<DropdownNavItem[]>([
+        {
+            title: 'Reports',
+            href: '#',
+            icon: BarChart3,
+            isOpen: false,
+            children: [
+            { title: 'Item 1', href: '#'},
+            { title: 'Item 2', href: '#'},
+            ],
+        },
+    ]);
+
 const footerNavItems: NavItem[] = [
     {
-        title: 'Dashboard',
+        title: 'Configuration',
         href: '/dashboard',
         icon: LayoutGrid,
     },
@@ -46,10 +68,11 @@ const footerNavItems: NavItem[] = [
 
         <SidebarContent>
             <NavMain :items="mainNavItems" />
+            <NavMain :items="reportItems" group-label="Reports" />
         </SidebarContent>
 
         <SidebarFooter>
-            <NavFooter :items="footerNavItems" />
+            <NavFooter :items="footerNavItems" v-if="user.role === 'admin'"/>
             <NavUser />
         </SidebarFooter>
     </Sidebar>
