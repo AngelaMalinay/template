@@ -9,14 +9,18 @@ use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use App\Models\User;
+use App\Models\ProfilePicture;
 
 class UserController extends Controller
 {
     public function index()
     {
-        $users = User::all();
+        $users = User::with('profilePicture')->get();
+        $profilePictures = ProfilePicture::all();
+
         return Inertia::render('Users/Index', [
-            'users' => $users
+            'users' => $users,
+            'profilePictures' => $profilePictures,
         ]);
     }
     
@@ -28,18 +32,32 @@ class UserController extends Controller
             'password' => 'required|string|min:8',
             'role' => 'required|in:admin,user',
             'status' => 'required|in:active,inactive',
+            'profile_picture_id' => 'nullable|integer|exists:profile_pictures,id',
         ]);
 
-        $user = User::create([
-            'name' => $validatedData['name'],
-            'email' => $validatedData['email'],
-            'password' => bcrypt($validatedData['password']),
-            'role' => $validatedData['role'],
-            'status' => $validatedData['status'],
-        ]);
+        try {
+            $user = User::create([
+                'name' => $validatedData['name'],
+                'email' => $validatedData['email'],
+                'password' => bcrypt($validatedData['password']),
+                'role' => $validatedData['role'],
+                'status' => $validatedData['status'],
+                'profile_picture_id' => $validatedData['profile_picture_id'] ?? null,
+            ]);
 
-        return response()->json(['message' => 'User created successfully', 'user' => $user], 201);
+            return response()->json([
+                'message' => 'User created successfully',
+                'user' => $user->load('profilePicture'),
+            ], 201);
+        } catch (\Exception $e) {
+            \Log::error('User creation failed: ' . $e->getMessage());
+            return response()->json([
+                'message' => 'Failed to create user',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
+
 
     public function uploadUsers(Request $request)
     {

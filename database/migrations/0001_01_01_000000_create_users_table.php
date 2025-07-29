@@ -28,7 +28,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->enum('role', ['admin', 'user'])->default('user');
             $table->enum('status', ['active', 'inactive'])->default('active');
-            $table->unsignedBigInteger('profile_picture_id')->nullable(); // FK column
+            $table->unsignedBigInteger('profile_picture_id')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
@@ -36,7 +36,7 @@ return new class extends Migration
             $table->foreign('profile_picture_id')
                 ->references('id')
                 ->on('profile_pictures')
-                ->nullOnDelete(); // set null if the picture is deleted
+                ->nullOnDelete();
         });
 
         // Keep password resets and sessions if needed

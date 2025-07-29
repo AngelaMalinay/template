@@ -2,6 +2,7 @@
   <Table>
     <TableHeader>
       <TableRow>
+        <TableHead>Picture</TableHead>
         <TableHead>Full Name</TableHead>
         <TableHead>Email</TableHead>
         <TableHead>Role</TableHead>
@@ -11,25 +12,46 @@
     </TableHeader>
     <TableBody>
       <TableRow v-for="user in users" :key="user.id">
+        <!-- Profile Picture -->
+        <TableCell>
+          <img
+            v-if="user.profile_picture"
+            :src="`/storage/${user.profile_picture.file_path}`"
+            alt="Profile"
+            class="h-10 w-10 rounded-full object-cover border"
+          />
+          <div v-else class="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center text-xs text-gray-500">
+            N/A
+          </div>
+        </TableCell>
+
+        <!-- Full Name -->
         <TableCell class="font-medium">{{ user.name }}</TableCell>
+
+        <!-- Email -->
         <TableCell>{{ user.email }}</TableCell>
+
+        <!-- Role -->
         <TableCell>{{ user.role }}</TableCell>
+
+        <!-- Status Switch -->
         <TableCell>
           <CustomSwitch
             :checked="user.status === 'active'"
             @update:checked="(checked) => handleToggle(user, checked)"
           />
         </TableCell>
+
+        <!-- Actions -->
         <TableCell class="text-right space-x-2">
-          <!-- Edit User -->
           <EditUserDialog :user="user" />
-          <!-- Delete User -->
           <DeleteUserDialog :user="user" />
         </TableCell>
       </TableRow>
     </TableBody>
   </Table>
 </template>
+
 
 <script setup lang="ts">
 import { ref } from "vue";

@@ -1,11 +1,19 @@
-<script setup>
+<script setup lang="ts">
+import { Head } from "@inertiajs/vue3";
+import AppLayout from "@/layouts/AppLayout.vue";
 import { ref } from 'vue'
 import { useForm } from '@inertiajs/vue3'
-import AppLayout from '@/layouts/AppLayout.vue'
 import { Camera, Upload, Loader2, Trash2 } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { toast } from '@/components/ui/toast'
+import { useToast } from "vue-toastification";
+
+const toast = useToast();
+
+const breadcrumbs = [
+  { title: "Dashboard", href: "/dashboard" },
+  { title: "Users Management", href: "/users" }
+];
 
 defineProps({
   profilePictures: Array,
@@ -32,11 +40,9 @@ const triggerFileInput = () => {
 
 const handleUpload = () => {
   if (!form.file) {
-    toast({
-      title: 'No file selected',
-      description: 'Please select an image to upload',
-      variant: 'destructive'
-    })
+    toast.error('Please select an image to upload', {
+      timeout: 3000
+    });
     return
   }
 
@@ -45,27 +51,25 @@ const handleUpload = () => {
     onSuccess: () => {
       form.reset()
       previewUrl.value = ''
-      toast({
-        title: 'Upload successful',
-        description: 'Your profile picture has been uploaded'
-      })
+      toast.success('Your profile picture has been uploaded', {
+        timeout: 3000
+      });
     },
     onError: () => {
-      toast({
-        title: 'Upload failed',
-        description: form.errors.file || 'An error occurred',
-        variant: 'destructive'
-      })
+      toast.error(form.errors.file || 'An error occurred during upload', {
+        timeout: 3000
+      });
     }
   })
 }
 </script>
 
 <template>
-  <AppLayout>
-    <div class="max-w-6xl mx-auto p-6 space-y-8">
+  <Head title="Users Management" />
+  <AppLayout :breadcrumbs="breadcrumbs">
+    <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
       <div class="flex justify-between items-center">
-        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Profile Pictures</h1>
+        <h1 class="text-xl font-bold text-gray-900 dark:text-white">Profile Pictures</h1>
       </div>
 
       <Card>
@@ -161,7 +165,7 @@ const handleUpload = () => {
               <img
                 :src="`/storage/${pic.file_path}`"
                 alt="Profile"
-                class="w-full h-40 object-cover"
+                class="w-full object-cover"
               />
               <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
                 <p class="text-white text-sm truncate">{{ pic.file_name }}</p>
