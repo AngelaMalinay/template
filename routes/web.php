@@ -5,6 +5,8 @@ use Inertia\Inertia;
 
 use App\Http\Controllers\Users\UserController;
 use App\Http\Controllers\Api\v1\ProfilePictureController;
+use App\Http\Controllers\CheckController;
+
 
 Route::get('/', function () {
     return Inertia::render('Welcome');
@@ -16,11 +18,11 @@ Route::get('dashboard', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::get('/profile-pictures', [ProfilePictureController::class, 'index'])->name('profile-pictures.index');
+    Route::get('/checks', [CheckController::class, 'index'])->name('checks.index');
+    Route::get('/checks/{check}/print', [CheckController::class, 'show'])->name('checks.print');
 });
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/profile-pictures', [ProfilePictureController::class, 'index'])->name('profile-pictures.index');
-});
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
