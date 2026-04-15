@@ -20,7 +20,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::get('/profile-pictures', [ProfilePictureController::class, 'index'])->name('profile-pictures.index');
     Route::get('/checks', [CheckController::class, 'index'])->name('checks.index');
-    Route::get('/checks/{check}/print', [CheckController::class, 'show'])->name('checks.print');
+    Route::get('/check-test', function () {
+        return Inertia::render('Checks/Print', [
+            'check' => [
+                'payee' => 'TEST PAYEE',
+                'amount' => 1000,
+                // ... add other fields here if you didn't hardcode them in Vue
+            ]
+        ]);
+    });
 });
 
 
