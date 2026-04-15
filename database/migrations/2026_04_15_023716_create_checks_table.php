@@ -10,17 +10,21 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void {
-    Schema::create('checks', function (Blueprint $table) {
-        $table->id();
-        $table->string('check_number');
-        $table->string('voucher_number');
-        $table->date('voucher_date');
-        $table->string('payee');
-        $table->decimal('amount', 15, 2);
-        $table->string('remarks')->nullable(); // Halimbawa: "TCADD Fee"
-        $table->timestamps();
-    });
-}
+        Schema::create('checks', function (Blueprint $table) {
+            $table->id();
+            $table->string('check_number');
+            $table->string('voucher_number');
+            $table->date('voucher_date');
+            $table->string('payee');
+            $table->decimal('amount', 15, 2);
+            $table->string('remarks')->nullable(); // Halimbawa: "TCADD Fee"
+            
+            // Eto yung idinagdag natin:
+            $table->string('account_description')->nullable(); 
+            
+            $table->timestamps();
+        });
+    }
 
     /**
      * Reverse the migrations.

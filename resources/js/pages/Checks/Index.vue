@@ -5,9 +5,9 @@
                 
                 <div class="flex justify-between items-center mb-6">
                     <h1 class="text-2xl font-bold text-gray-800">Check Printing Management</h1>
-                    <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700">
+                    <Link :href="route('checks.create')" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700">
                         + New Check
-                    </button>
+                    </Link>
                 </div>
 
                 <div class="bg-white shadow-md rounded-xl overflow-hidden border border-gray-200">

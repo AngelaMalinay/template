@@ -19,16 +19,12 @@ Route::get('dashboard', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::get('/profile-pictures', [ProfilePictureController::class, 'index'])->name('profile-pictures.index');
+    
+    // Checks Routes
     Route::get('/checks', [CheckController::class, 'index'])->name('checks.index');
-    Route::get('/check-test', function () {
-        return Inertia::render('Checks/Print', [
-            'check' => [
-                'payee' => 'TEST PAYEE',
-                'amount' => 1000,
-                // ... add other fields here if you didn't hardcode them in Vue
-            ]
-        ]);
-    });
+    Route::get('/checks/create', [CheckController::class, 'create'])->name('checks.create'); // Eto ang magpapakita ng form
+    Route::post('/checks', [CheckController::class, 'store'])->name('checks.store');         // Eto ang magse-save ng data
+    Route::get('/checks/{check}/print', [CheckController::class, 'show'])->name('checks.print');
 });
 
 
