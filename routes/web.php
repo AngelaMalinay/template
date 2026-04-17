@@ -25,7 +25,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/check-test', function () {
         return Inertia::render('Checks/Print', [
             'check' => [
-                'payee' => 'TEST PAYEE',
+            
+            'payee' => 'TEST PAYEE',
                 'amount' => 1000,
                 // ... add other fields here if you didn't hardcode them in Vue
             ]

@@ -8,9 +8,6 @@ use Illuminate\Http\Request;
 
 class CheckController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     * */
     public function index()
     {
         return Inertia::render('Checks/Index', [
@@ -18,21 +15,13 @@ class CheckController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        // Eto yung magre-render ng bagong Vue file para sa form
         return Inertia::render('Checks/Create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        // 1. I-validate ang mga inputs galing sa form
         $validated = $request->validate([
             'check_number' => 'required|string|max:255',
             'voucher_number' => 'required|string|max:255',
@@ -43,17 +32,17 @@ class CheckController extends Controller
             'account_description' => 'nullable|string|max:255',
         ]);
 
-        // 2. I-save sa database
         Check::create($validated);
 
-        // 3. I-redirect pabalik sa listahan ng checks (Index page)
         return redirect()->route('checks.index');
     }
 
-    /**
-     * */
     public function show(Check $check)
     {
+        // Inject the amounts for the columns
+        $check->debit_amount = $check->amount; 
+        $check->credit_amount = 0.00; 
+
         return Inertia::render('Checks/Print', [
             'check' => $check
         ]);
