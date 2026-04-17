@@ -31,7 +31,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 // ... add other fields here if you didn't hardcode them in Vue
             ]
         ]);
+
+    
     });
+
+    Route::get('/check-excel', function () {
+        return Inertia::render('Checks/ExcelView'); 
+    });
+
+    // 2. Eto yung mismong magda-download kapag pinindot yung button
+    Route::get('/download-check-excel', function () {
+        $filePath = public_path('BDO_Check_Template.xlsx');
+        return response()->download($filePath, 'BDO_Check_Hardcoded.xlsx');
+    });
+
     Route::get('/checks/create', [CheckController::class, 'create'])->name('checks.create'); // Eto ang magpapakita ng form
     Route::post('/checks', [CheckController::class, 'store'])->name('checks.store');         // Eto ang magse-save ng data
     Route::get('/checks/{check}/print', [CheckController::class, 'show'])->name('checks.print');
