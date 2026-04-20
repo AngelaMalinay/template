@@ -116,7 +116,7 @@ const formatNumber = (num) => {
           <div class="flex justify-between items-start mb-6 px-4">
             <div class="flex items-center gap-2">
               <img src="/images/ALF Logo 2022.png" alt="Logo" class="h-8 w-8 grayscale" />
-              <span class="text-[9px] font-bold uppercase leading-3 w-36">ARELLANO LAW FOUNDATION</span>
+              <span class="text-[9px] font-bold uppercase leading-3 w-36">ARELLANO LAW FOVNDATION</span>
             </div>
             <div class="text-right">
               <span class="text-[9px] font-bold uppercase">CHECK No.</span>
@@ -161,7 +161,7 @@ const formatNumber = (num) => {
           <div class="flex justify-between items-start mb-6 px-4">
             <div class="flex items-center gap-2">
               <img src="/images/ALF Logo 2022.png" alt="Logo" class="h-8 w-8 grayscale" />
-              <span class="text-[9px] font-bold uppercase leading-3 w-36">ARELLANO LAW FOUNDATION</span>
+              <span class="text-[9px] font-bold uppercase leading-3 w-36">ARELLANO LAW FOVNDATION</span>
             </div>
             <div class="text-right">
               <span class="text-[9px] font-bold uppercase">CHECK No.</span>
