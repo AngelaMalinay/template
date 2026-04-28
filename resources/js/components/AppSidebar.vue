@@ -7,15 +7,15 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, Sid
 import { SidebarGroup, SidebarGroupLabel } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';
-import { LayoutGrid, UserRoundCog, BarChart3, Cog, HardDriveDownload, Building2 } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
+import { LayoutGrid, UserRoundCog, BarChart3, Cog, HardDriveDownload, Building2, Printer } from 'lucide-vue-next';
 
 interface DropdownNavItem extends NavItem {
     children?: NavItem[];
     isOpen?: boolean;
 }
 
-const user = usePage().props.auth.user;
+const user = usePage().props.auth.user as any;
 
 const mainNavItems: NavItem[] = [
     {
@@ -28,7 +28,14 @@ const mainNavItems: NavItem[] = [
         href: '/users',
         icon: UserRoundCog,
     },
+    {
+        title: 'Checks',
+        href: '/checks',
+        icon: Printer,
+    },
 ];
+
+
 
 const reportItems = ref<DropdownNavItem[]>([
         {
